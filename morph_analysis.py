@@ -9,13 +9,10 @@ def parse_sentence(sentence):
     def parse_option(tokens):
         tokens = list(tokens)
         replacements = []
-        # # print(tokens)
         while True:
             iter_tokens, replacement = apply_rules(tokens)
             if replacement is None:
                 return tokens, replacements
-            #             if iter_tokens == tokens:
-            #                 return tokens
             replacements += [replacement]
             tokens = iter_tokens
 

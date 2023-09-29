@@ -221,7 +221,6 @@ def apply_rules(tokens):
                                              if type(key) is not str else 1
                                              for key in pos_rule_keys])))[::-1]
         iter_rng = reversed(range(len(tokens))) if is_reversed else range(len(tokens))
-        ## print(iter_rng)
         for i in iter_rng:
             for (rule_comb, rule_conds), rule_replace in rules.items():
                 pos_rule_len = len(rule_comb)

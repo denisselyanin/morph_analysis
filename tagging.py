@@ -81,7 +81,6 @@ def get_tags(word, min_rating=0.05):
                 "числ": "None",
                 "лицо": "None",
                 "rating": 1}]
-        # print(res)
     elif not word.isalpha() or word == 'и':
         return f"{word}"
     else:
