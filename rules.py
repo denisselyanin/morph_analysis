@@ -14,17 +14,15 @@ class EqualityCondition(RuleCondition):
         self._value = value
 
     def check(self, tokens):
-
         if type(tokens) not in [list, tuple]:
             tokens = list(tokens)
-        # # print("for tokens", tokens)
-        # # print("checking equality of features", self._feature)
         fea_vals = [token.split("-")[ALL_FEATURES.index(self._feature)]
                     for token in tokens
                     if token.split("-")[ALL_FEATURES.index("ч.р.")] not in RULE_CHECK_STOP_TOKENS]
-        # # print("fea_vals:", fea_vals)
         if len(set(fea_vals)) != 1:
             return False
+        if self._value == 'Any' or fea_vals[0] == 'Any':
+            return True
         if self._value is not None and fea_vals[0] != self._value:
             return False
         return True
@@ -55,8 +53,8 @@ class ExactFeatureCondition(RuleCondition):
                     for token in tokens
                     if token.split("-")[ALL_FEATURES.index("ч.р.")] not in RULE_CHECK_STOP_TOKENS]
 
-        # # print("for tokens", tokens)
-        # # print("checking equality of features", self._feature, fea_vals[self._pos], self._value)
+        if self._value == 'Any' or fea_vals[self._pos] == 'Any':
+            return True
         return fea_vals[self._pos] == self._value
 
 adjective_rules = {

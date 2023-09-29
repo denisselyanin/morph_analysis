@@ -62,7 +62,19 @@ def reduce_tag(tag):
 
 
 def get_tags(word, min_rating=0.05):
-    if word.isnumeric():
+    is_caps = True;
+    for c in word:
+        if not ('A' <= c and c <= 'Я'):
+            is_caps = False
+            break
+    if is_caps:
+        res = [{"ч.р.": "сущ",
+                "род": "Any",
+                "падеж": "Any",
+                "числ": "Any",
+                "лицо": "None",
+                "rating": 1}]
+    elif word.isnumeric():
         res = [{"ч.р.": "числ",
                 "род": "None",
                 "падеж": "None",
@@ -84,10 +96,8 @@ def get_tags(word, min_rating=0.05):
     res = [reduce_tag(tag) for tag in res]
     return res
 
-
 def split_sentence(sentence):
     pts = sentence.split()
-    # print(pts)
     tokens = []
     for i in range(len(pts)):
         if pts[i] in SUB_UNIONS:
@@ -100,7 +110,10 @@ def split_sentence(sentence):
             tokens += pts[i]
             continue
         if (not pts[i].isalpha()) and pts[i][:-1].isalpha():
-            tokens += [pts[i][:-1], pts[i][-1]]
+            if pts[i][-1] in SKIP_TOKENS:
+                tokens += [pts[i][:-1]]
+            else:
+                tokens += [pts[i][:-1], pts[i][-1]]
             continue
         tokens += [pts[i]]
 
